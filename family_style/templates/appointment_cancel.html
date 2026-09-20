@@ -1,0 +1,34 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Отмена записи — Family Style{% endblock %}
+
+{% block content %}
+    <div style="background:#fff; border-radius:10px; padding:30px; max-width:600px; margin:0 auto; box-shadow:0 4px 6px rgba(0,0,0,0.1); text-align:center;">
+        <h2>Отменить запись?</h2>
+
+        <p style="margin:20px 0;">
+            <strong>{{ appointment.service.name }}</strong><br>
+            {{ appointment.date }} в {{ appointment.time }}<br>
+            {% if appointment.master %}
+                Мастер: {{ appointment.master.first_name }} {{ appointment.master.last_name }}
+            {% else %}
+                Мастер: любой
+            {% endif %}
+        </p>
+
+        <p style="color:#c0392b; margin-bottom:20px;">
+            Это действие нельзя отменить.
+        </p>
+
+        <form method="post" style="box-shadow:none; padding:0; background:transparent;">
+            {% csrf_token %}
+            <button type="submit" style="background:#c0392b; margin-bottom:10px;">
+                Да, отменить запись
+            </button>
+            <a href="{% url 'my_appointments' %}"
+               style="display:inline-block; color:#8e44ad; text-decoration:none;">
+                ← Вернуться к моим записям
+            </a>
+        </form>
+    </div>
+{% endblock %}

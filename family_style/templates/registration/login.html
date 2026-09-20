@@ -1,0 +1,32 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Вход — Family Style{% endblock %}
+
+{% block content %}
+    <h2>Вход</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <p style="color:red; text-align:center;">
+                Неверное имя пользователя или пароль.
+            </p>
+        {% endif %}
+
+        <p>
+            <label for="id_username">Имя пользователя:</label>
+            <input type="text" name="username" id="id_username" required autofocus>
+        </p>
+        <p>
+            <label for="id_password">Пароль:</label>
+            <input type="password" name="password" id="id_password" required>
+        </p>
+
+        <button type="submit">Войти</button>
+    </form>
+
+    <p style="text-align:center; margin-top:15px;">
+        Нет аккаунта? <a href="{% url 'register' %}" style="color:#8e44ad;">Зарегистрируйтесь</a>
+    </p>
+{% endblock %}

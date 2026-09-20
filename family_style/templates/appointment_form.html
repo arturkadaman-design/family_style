@@ -1,0 +1,35 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Запись на {{ service.name }} — Family Style{% endblock %}
+
+{% block content %}
+    <h2>Запись на услугу</h2>
+
+    <div style="background:#fff; border-radius:10px; padding:20px; max-width:600px; margin:0 auto 20px; box-shadow:0 4px 6px rgba(0,0,0,0.1); text-align:center;">
+        <h3>{{ service.name }}</h3>
+        <p style="color:#8e44ad; font-weight:600;">{{ service.price }} ₽ • {{ service.duration_minutes }} мин</p>
+        <p style="color:#888;">Категория: {{ service.category.name }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="color:red; margin-bottom:15px;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <p>
+                <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+                {{ field }}
+                {% if field.errors %}
+                    <span style="color:red; font-size:0.9em;">{{ field.errors.0 }}</span>
+                {% endif %}
+            </p>
+        {% endfor %}
+
+        <button type="submit">Записаться</button>
+    </form>
+{% endblock %}

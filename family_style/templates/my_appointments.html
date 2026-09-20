@@ -1,0 +1,47 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Мои записи — Family Style{% endblock %}
+
+{% block content %}
+    <h2>Мои записи</h2>
+
+    {% if appointments %}
+        <div style="max-width:800px; margin:0 auto;">
+            {% for appt in appointments %}
+                <div style="background:#fff; border-radius:10px; padding:20px; margin-bottom:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+                    <h3>{{ appt.service.name }}</h3>
+                    <p><strong>Дата:</strong> {{ appt.date }} в {{ appt.time }}</p>
+                    <p><strong>Мастер:</strong>
+                        {% if appt.master %}{{ appt.master.first_name }} {{ appt.master.last_name }}
+                        {% else %}Любой{% endif %}
+                    </p>
+                    <p><strong>Статус:</strong>
+                        <span style="color:
+                            {% if appt.status == 'new' %}#e67e22
+                            {% elif appt.status == 'confirmed' %}#27ae60
+                            {% elif appt.status == 'done' %}#2980b9
+                            {% else %}#c0392b{% endif %};">
+                            {{ appt.get_status_display }}
+                                                {% if appt.status == 'new' or appt.status == 'confirmed' %}
+                        <p style="margin-top:10px;">
+                            <a href="{% url 'appointment_cancel' appt.pk %}"
+                               style="color:#c0392b; text-decoration:none; font-size:0.9em;">
+                                Отменить запись
+                            </a>
+                        </p>
+                    {% endif %}
+                        </span>
+                    </p>
+                    {% if appt.comment %}
+                        <p><strong>Комментарий:</strong> {{ appt.comment }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center;">У вас пока нет записей.</p>
+        <p style="text-align:center;">
+            <a href="{% url 'service_list' %}">Посмотреть услуги →</a>
+        </p>
+    {% endif %}
+{% endblock %}

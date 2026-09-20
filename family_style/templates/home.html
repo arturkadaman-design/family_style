@@ -1,0 +1,46 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Главня - Family style</style>{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h2>Салон красоты Family style</h2>
+    <p>Стрижки, маникюр, косметология и многое другое. Запишитесь к нашим мастерам — и преобразитесь уже сегодня!</p>
+    <a href="{% url 'service_list' %}" class="btn">Посмотреть услуги</a>
+</section>
+
+{% if categories %}
+    <div class="category-pills">
+        {% for cat in categories %}
+            <a href="{% url 'category_detail' cat.slug %}">{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<h3>Популярные услуги</h3>
+
+{% if services %}
+    <div class="service-grid">
+        {% for service in services %}
+            <div class="service-card">
+                {% if service.image %}
+                    <img src="{{ service.image.url }}" alt="{{ service.name }}">
+                {% endif %}
+                <h3>{{ service.name }}</h3>
+                <p class="price">{{ service.price }} ₽</p>
+                <p class="duration">{{ service.duration_minutes }} мин</p>
+                <a href="{% url 'service_detail' service.slug %}">Подробнее</a>
+            </div>
+        {% endfor %}
+    </div>
+    <p style="text-align:center; margin-top:30px;">
+        <a href="{% url 'service_list' %}" style="color:#8e44ad; font-weight:600; text-decoration:none;">
+            Показать все услуги →
+        </a>
+    </p>
+{% else %}
+    <p style="text-align:center;">Пока нет услуг. Добавьте их через админку.</p>
+{% endif %}
+
+{% endblock %}

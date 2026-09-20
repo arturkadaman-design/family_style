@@ -1,0 +1,31 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Наши мастера — Family Style{% endblock %}
+
+{% block content %}
+    <h2>Наши мастера</h2>
+
+    {% if masters %}
+        <div class="service-grid">
+            {% for master in masters %}
+                <div class="service-card">
+                    {% if master.photo %}
+                        <img src="{{ master.photo.url }}" alt="{{ master.first_name }}">
+                    {% endif %}
+                    <h3>{{ master.first_name }} {{ master.last_name }}</h3>
+                    {% if master.experience_years %}
+                        <p class="duration">Опыт: {{ master.experience_years }} лет</p>
+                    {% endif %}
+                    {% if master.description %}
+                        <p style="font-size:0.9em; color:#666; margin-bottom:10px;">
+                            {{ master.description|truncatewords:15 }}
+                        </p>
+                    {% endif %}
+                    <a href="{% url 'master_detail' master.pk %}">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center;">Пока нет мастеров.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+    {% if category %}{{ category.name }} — Family Style{% else %}Все услуги — Family Style{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {% if category %}
+            {{ category.name }}
+        {% else %}
+            Все услуги
+        {% endif %}
+    </h2>
+
+    {% if category.description %}
+        <p style="text-align:center;">{{ category.description }}</p>
+    {% endif %}
+
+    {% if categories %}
+        <div class="category-pills">
+            <a href="{% url 'service_list' %}" class="{% if not category %}active{% endif %}">Все</a>
+            {% for cat in categories %}
+                <a href="{% url 'category_detail' cat.slug %}"
+                   class="{% if category and category.slug == cat.slug %}active{% endif %}">
+                    {{ cat.name }}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if services %}
+        <div class="service-grid">
+            {% for service in services %}
+                <div class="service-card">
+                    {% if service.image %}
+                        <img src="{{ service.image.url }}" alt="{{ service.name }}">
+                    {% endif %}
+                    <h3>{{ service.name }}</h3>
+                    <p class="price">{{ service.price }} ₽</p>
+                    <p class="duration">{{ service.duration_minutes }} мин</p>
+                    <a href="{% url 'service_detail' service.slug %}">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center;">Пока нет услуг в этой категории.</p>
+    {% endif %}
+{% endblock %}
